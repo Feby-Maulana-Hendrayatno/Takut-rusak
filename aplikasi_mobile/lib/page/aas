@@ -1,0 +1,170 @@
+import 'dart:convert';
+
+import 'package:aplikasi_mobile/connection/app_config.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sp_util/sp_util.dart';
+import 'package:http/http.dart' as http;
+
+class HomePage extends StatefulWidget {
+  HomePage({Key? key, String? title}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Future getProducts() async {
+    final response = await http.get(Uri.parse(AppConfig.getUrl()+ 'perumahan/data/'));
+    print(json.decode(response.body));
+    return json.decode(response.body);
+  }
+
+
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+  final List<String> imgList = [
+    'assets/images/1.jpg',
+    'assets/images/2.jpg',
+    'assets/images/3.jpg',
+    'assets/images/4.jpg',
+    'assets/images/5.jpeg',
+  ];
+  @override
+  Widget build(BuildContext context) {
+    
+    getProducts();
+    return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HomePage()));
+          },
+          child: Icon(Icons.add),
+        ),
+        appBar: AppBar(
+          title: Text("Property"),
+          backgroundColor: Colors.amber,
+        ),
+        body: FutureBuilder(
+            future: getProducts(),
+            builder: (context, AsyncSnapshot snapshot) {
+              print(snapshot..data);
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data['data'].length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        
+        child: Column(
+          children: [
+          Positioned(
+              child: Container(
+                margin: EdgeInsets.only(top: 20, bottom: 20, right: 150),
+                child: Center(
+                  child :Text(
+                    'Rumah Populer',
+                    style: TextStyle(
+                      fontFamily:'AkayaTelivigala',
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 25,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              // getPerumahan()    
+              child: CarouselSlider(
+                options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 2.0,
+                    viewportFraction: 0.85,
+                    enlargeCenterPage: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    onPageChanged: (index, carouselReason) {
+                      print(index);
+                      setState(() {
+                        _current = index;
+                      });
+                    }),
+                items: imgList
+                    .map((item) => Container(
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image.network(
+                                      "http://192.168.1.137:8000/storage/${['data'][index]['foto']}"
+                                    ),
+                                        
+                                    Positioned(
+                                      bottom: 0.0,
+                                      left: 0.0,
+                                      right: 0.0,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color.fromARGB(200, 0, 0, 0),
+                                              Color.fromARGB(0, 0, 0, 0)
+                                            ],
+                                            begin: Alignment.bottomCenter,
+                                            end: Alignment.topCenter,
+                                          ),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 20.0),
+                                        child: Text(
+                                          'No. ${imgList.indexOf(item)} image',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: imgList.asMap().entries.map((entry) {
+                return GestureDetector(
+                  onTap: () => _controller.animateToPage(entry.key),
+                  child: Container(
+                    width: 12.0,
+                    height: 12.0,
+                    margin:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.black)
+                            .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+            );
+              } else {
+                return Text('Data Error');
+              }
+            }));
+  }
+}
