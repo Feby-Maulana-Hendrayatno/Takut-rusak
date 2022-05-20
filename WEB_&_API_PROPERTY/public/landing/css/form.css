@@ -1,0 +1,119 @@
+body{
+    background-image: url(green.jpg);
+    /* width: 500px; */
+    padding-top: 100px;
+    height: 300px;
+    margin: 10 auto;
+    opacity: 0.9;
+    border: 10px;
+    margin-top: -20px;
+    box-sizing: 50px;
+   }
+   .konten{
+    
+    background:#556b2f;
+    border: #00868b;
+    margin: 40px auto;
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px;
+    
+   }
+   .kepala{
+    
+    border-radius: 12px 12px 5px 5px; 
+    background: #a0cc4e;
+    padding: 2px 2px;
+    height: 70px;
+   }
+   .lock{
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    margin-top: 10px;
+    float: center;
+    margin-right: 40px;
+    border: #ffffff;
+   }
+   .judul{
+    color: #ffffff;
+    font-weight: 20px;
+    line-height: 10px;
+    display: inline-block;
+   }
+   .artikel{
+    padding:10px 15px;
+    color: #ffffff;
+    border-radius: 7px;
+   }
+   .grup{
+    margin: 7px 0;
+   }
+   .grup label,
+   .grup input,
+   .grup button{
+    display: block;
+   }
+   .grup label{
+    display: inline-block;
+    font-size: 18px;
+    text-align: center;
+    margin: 0 0.2em;
+    margin-bottom: 7px;
+   }
+   .grup input[type="text"],
+   .grup input[type="number"],
+   .grup input[type="tel"],
+   .grup input[type="email"],
+   .grup input[type="password"]{
+    width: 350px;
+    height: 30px;
+    padding: 0 10px;
+    background: #ffffff;
+    border: #000000;
+    font-size: 13px;
+    color: #000000;
+   }
+   .grup input[type="textarea"]{
+    width: 187px;
+    height: 50px;
+    background: #ffffff;
+    border: #000000;
+    font-size: 13px;
+    color: #ffffff;
+    float: right;
+    margin-right: 60px;
+    margin-bottom: 10px;
+    text-align: center ;
+   }
+   .grup button[type="radio"]{
+    margin: 80px;
+    margin-right: 7px;
+    float: left;
+   }
+   .grup button[type="submit"],
+   .grup button[type="reset"] hover{
+    background: #00868b;
+    border: 2px solid #00e5ee;
+    float: left;
+    border-radius: 7px;
+    color: #ffffff;
+    cursor: pointer;
+   }
+   .required{
+    color: rgb(251, 251, 251);
+    font-weight: normal;
+   }
+   .footer{
+    padding-top: 50px;
+    font-size: 20px;
+    color: #ffffff;
+    height: 88px;
+    /* margin-left: 20px; */
+    margin-bottom: -80px;
+    margin-top: -30px;
+    padding-bottom: 150px;
+   }
